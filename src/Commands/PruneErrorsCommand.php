@@ -13,7 +13,9 @@ class PruneErrorsCommand extends Command
 
     public function handle(): int
     {
-        $days = (int) ($this->option('days') ?: config('error-alerts.prune_after_days', 30));
+        $days = $this->option('days') !== null
+            ? (int) $this->option('days')
+            : (int) config('error-alerts.prune_after_days', 30);
 
         $this->info("Pruning error alerts older than {$days} days...");
 
