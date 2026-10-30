@@ -23,10 +23,11 @@ class TestAlertCommand extends Command
 
         $recipients = $this->option('email')
             ? [$this->option('email')]
-            : (array) config('error-alerts.recipients', ['sadpc.web@gmail.com']);
+            : (array) config('error-alerts.recipients', []);
 
         if (empty($recipients)) {
-            $this->error("❌ No recipients configured! Set ERROR_ALERTS_RECIPIENTS in .env");
+            $this->error("❌ No recipients configured! Set ERROR_ALERT_EMAIL in your .env file.");
+            $this->line("Example: ERROR_ALERT_EMAIL=sadpc.web@gmail.com");
             return self::FAILURE;
         }
 

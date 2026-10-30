@@ -18,11 +18,14 @@ return [
     |--------------------------------------------------------------------------
     |
     | Email addresses that should receive the 500 error notifications.
-    | Can be a comma-separated string in .env or an array of email strings.
+    | Set ERROR_ALERT_EMAIL in your .env file to enable alerts.
+    | If not set or empty, no error alerts will be dispatched.
+    |
+    | Example: ERROR_ALERT_EMAIL=sadpc.web@gmail.com
     |
     */
     'recipients' => array_filter(
-        array_map('trim', explode(',', env('ERROR_ALERTS_RECIPIENTS', 'sadpc.web@gmail.com')))
+        array_map('trim', explode(',', (string) env('ERROR_ALERT_EMAIL', env('ERROR_ALERTS_RECIPIENTS', ''))))
     ),
 
     'cc' => array_filter(

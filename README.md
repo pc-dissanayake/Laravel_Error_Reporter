@@ -50,34 +50,21 @@ php artisan migrate
 
 ## ⚙️ Configuration (`.env`)
 
-Add the following environment variables to your `.env` file to customize behavior:
+Simply add your email to `.env` to enable 500 error alerts:
 
 ```dotenv
-# Enable or disable alerts
+# Your email to receive 500 server error alerts (Required to enable alerts)
+ERROR_ALERT_EMAIL=sadpc.web@gmail.com
+
+# Optional settings:
 ERROR_ALERTS_ENABLED=true
-
-# Recipients (single or comma-separated list)
-ERROR_ALERTS_RECIPIENTS=sadpc.web@gmail.com,alerts@sadpcd.com
-
-# Optional CC and BCC
-ERROR_ALERTS_CC=
-ERROR_ALERTS_BCC=
-
-# Dedicated mailer (null uses default config('mail.default'))
-ERROR_ALERTS_MAILER=smtp
-
-# Active environments (prevent local test spam)
 ERROR_ALERTS_ENVIRONMENTS=production,staging
-
-# Cooldown duration in minutes for duplicate errors
 ERROR_ALERTS_THROTTLE_MINUTES=30
-
-# Max alert emails per hour across all different errors (Circuit Breaker)
 ERROR_ALERTS_BURST_MAX=15
-
-# Send synchronously (recommended for resilience) or queue
 ERROR_ALERTS_QUEUE=false
 ```
+
+> **Note:** If `ERROR_ALERT_EMAIL` is not set or is empty, the alerting engine is automatically disabled, generating zero overhead and sending no emails.
 
 ---
 
