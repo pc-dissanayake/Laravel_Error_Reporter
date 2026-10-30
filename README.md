@@ -21,7 +21,7 @@ A battle-tested, resilient **500 error reporting and monitoring system** for Lar
 * **⚡ 100% Vite & Inertia.js Compatible:** Email templates use self-contained, inlined CSS—completely independent of Vite compilation, Tailwind builds, or local dev servers. Automatically captures Inertia component names and SPA AJAX payloads.
 * **🎛️ Laravel Livewire & Queue Support:** Detects Livewire component actions, method parameters, and failed queued background jobs.
 * **🖥️ Optional Filament Admin UI Plugin:** Ready-to-use Filament v3/v4 dashboard widget and error management resource with full stack trace viewer and "Mark as Resolved" actions.
-* **🛠️ Artisan CLI Tools:** Includes `php artisan error-alerts:test`, `php artisan error-alerts:clear`, and `php artisan error-alerts:prune`.
+* **🛠️ Artisan CLI Tools:** Includes `php artisan error-reporter:test`, `php artisan error-reporter:clear`, and `php artisan error-reporter:prune`.
 
 ---
 
@@ -36,13 +36,13 @@ composer require sadpcd/laravel-error-reporter
 Publish the configuration file:
 
 ```bash
-php artisan vendor:publish --tag="error-alerts-config"
+php artisan vendor:publish --tag="error-reporter-config"
 ```
 
 *(Optional)* If you want to use the database error log and Filament UI:
 
 ```bash
-php artisan vendor:publish --tag="error-alerts-migrations"
+php artisan vendor:publish --tag="error-reporter-migrations"
 php artisan migrate
 ```
 
@@ -70,25 +70,27 @@ ERROR_ALERTS_QUEUE=false
 
 ## 🖥️ Filament Admin Panel Integration
 
-If your application uses [Filament](https://filamentphp.com), you can register the **Error Alerts Plugin** in your Panel Provider (e.g. `app/Providers/Filament/AdminPanelProvider.php`):
+If your application uses [Filament](https://filamentphp.com), you can register the **Error Reporter Plugin** in your Panel Provider (e.g. `app/Providers/Filament/AdminPanelProvider.php`):
 
 ```php
-use Sadpcd\ErrorAlerts\Filament\ErrorAlertsPlugin;
+use Sadpcd\ErrorReporter\Filament\ErrorReporterPlugin;
 
 public function panel(Panel $panel): Panel
 {
     return $panel
         // ...
         ->plugins([
-            ErrorAlertsPlugin::make()
+            ErrorReporterPlugin::make()
                 ->navigationGroup('Monitoring')
                 ->enableWidget(true),
         ]);
 }
 ```
 
+*(Note: `Sadpcd\ErrorAlerts\Filament\ErrorAlertsPlugin` is also available as a backward-compatible alias)*
+
 ### What You Get in Filament:
-1. **500 Error Alerts Resource:** Searchable list of all captured errors, occurrence counts, status badges (*Unresolved / Resolved / Ignored*), and full stack trace inspector.
+1. **500 Error Reports Resource:** Searchable list of all captured errors, occurrence counts, status badges (*Unresolved / Resolved / Ignored*), and full stack trace inspector.
 2. **Dashboard Overview Widget:** Real-time stats card displaying 24h error frequency and top failing exception.
 3. **Quick Actions:** "Send Test Alert" and "Clear Cooldowns" directly from the admin panel.
 
@@ -100,24 +102,24 @@ public function panel(Panel $panel): Panel
 Trigger a simulated 500 error to verify that emails reach your mailbox properly:
 
 ```bash
-php artisan error-alerts:test
+php artisan error-reporter:test
 
 # Or test sending to an explicit email:
-php artisan error-alerts:test --email=myemail@example.com
+php artisan error-reporter:test --email=myemail@example.com
 ```
 
 ### 2. Clear Active Cooldowns
 Reset rate-limiting locks and burst counters:
 
 ```bash
-php artisan error-alerts:clear
+php artisan error-reporter:clear
 ```
 
 ### 3. Prune Old Database Errors
 Clean up historical error logs older than 30 days:
 
 ```bash
-php artisan error-alerts:prune --days=30
+php artisan error-reporter:prune --days=30
 ```
 
 ---

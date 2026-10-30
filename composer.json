@@ -38,11 +38,13 @@
     },
     "autoload": {
         "psr-4": {
+            "Sadpcd\\ErrorReporter\\": "src/",
             "Sadpcd\\ErrorAlerts\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
+            "Sadpcd\\ErrorReporter\\Tests\\": "tests/",
             "Sadpcd\\ErrorAlerts\\Tests\\": "tests/"
         }
     },
@@ -52,9 +54,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Sadpcd\\ErrorAlerts\\ErrorAlertServiceProvider"
+                "Sadpcd\\ErrorReporter\\ErrorReporterServiceProvider"
             ],
             "aliases": {
+                "ErrorReporter": "Sadpcd\\ErrorReporter\\Facades\\ErrorReporter",
                 "ErrorAlert": "Sadpcd\\ErrorAlerts\\Facades\\ErrorAlert"
             }
         }

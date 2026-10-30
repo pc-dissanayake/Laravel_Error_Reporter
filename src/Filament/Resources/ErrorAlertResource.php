@@ -30,7 +30,7 @@ class ErrorAlertResource extends Resource
 
     protected static ?string $navigationGroup = 'Monitoring';
 
-    protected static ?string $navigationLabel = '500 Error Alerts';
+    protected static ?string $navigationLabel = '500 Error Reports';
 
     protected static ?int $navigationSort = 100;
 
@@ -228,7 +228,7 @@ class ErrorAlertResource extends Resource
                     ->color('primary')
                     ->requiresConfirmation()
                     ->action(function () {
-                        Artisan::call('error-alerts:test');
+                        Artisan::call('error-reporter:test');
                         Notification::make()
                             ->title('Simulated 500 error sent!')
                             ->body('Check your recipient inbox.')
@@ -241,7 +241,7 @@ class ErrorAlertResource extends Resource
                     ->icon('heroicon-o-arrow-path')
                     ->color('warning')
                     ->action(function () {
-                        Artisan::call('error-alerts:clear');
+                        Artisan::call('error-reporter:clear');
                         Notification::make()
                             ->title('Cooldowns cleared')
                             ->body('New identical errors will dispatch immediately.')
