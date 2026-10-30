@@ -8,13 +8,18 @@ use Sadpcd\ErrorAlerts\Services\ErrorAlertManager;
 
 class TestAlertCommand extends Command
 {
-    protected $signature = 'error-alerts:test {--email= : Send to a specific test email}';
+    protected $signature = 'error-alerts:test {--email= : Send to a specific test email} {--force : Bypass active throttling cooldown}';
 
     protected $description = 'Trigger a simulated 500 server error to test SADPCD Error Alerts';
 
     public function handle(ErrorAlertManager $manager): int
     {
         $this->info("🚀 Preparing simulated 500 error test for SADPCD Error Alerts...");
+
+        if ($this->option('force')) {
+            config(['error-alerts.throttle.enabled' => false]);
+            $this->warn("⚡ Force mode enabled: bypassing throttle cooldowns.");
+        }
 
         $recipients = $this->option('email')
             ? [$this->option('email')]

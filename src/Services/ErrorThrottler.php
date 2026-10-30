@@ -73,6 +73,13 @@ class ErrorThrottler
         Cache::put($lockKey, true, now()->addMinutes($minutes));
         Cache::put($countKey, 1, now()->addMinutes($minutes * 2));
 
+        // Track key in active list for clearing
+        $trackedKeys = (array) Cache::get('error_alerts:active_keys', []);
+        if (!in_array($fingerprint, $trackedKeys, true)) {
+            $trackedKeys[] = $fingerprint;
+            Cache::put('error_alerts:active_keys', $trackedKeys, now()->addDays(2));
+        }
+
         if ($burstEnabled) {
             Cache::put($burstKey, (int) Cache::get($burstKey, 0) + 1, now()->addHour());
         }
@@ -158,8 +165,25 @@ class ErrorThrottler
     /**
      * Clear active throttles.
      */
-    public function clear(): void
+    public function clear(?string $fingerprint = null): void
     {
+        try {
+            if ($fingerprint) {
+                Cache::forget('error_alerts:throttle:' . $fingerprint);
+                Cache::forget('error_alerts:count:' . $fingerprint);
+            } else {
+                $trackedKeys = (array) Cache::get('error_alerts:active_keys', []);
+                foreach ($trackedKeys as $key) {
+                    Cache::forget('error_alerts:throttle:' . $key);
+                    Cache::forget('error_alerts:count:' . $key);
+                }
+                Cache::forget('error_alerts:active_keys');
+                Cache::forget('error_alerts:burst:' . date('YmdH'));
+            }
+        } catch (Throwable) {
+            // ignore
+        }
+
         try {
             if (file_exists($this->fallbackFilePath)) {
                 @unlink($this->fallbackFilePath);

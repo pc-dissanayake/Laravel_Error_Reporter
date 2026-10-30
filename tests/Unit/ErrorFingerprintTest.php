@@ -16,10 +16,15 @@ class ErrorFingerprintTest extends TestCase
         $this->fingerprinter = app(ErrorFingerprint::class);
     }
 
+    protected function createError(string $message): Exception
+    {
+        return new Exception($message, 500);
+    }
+
     public function test_it_generates_identical_hash_for_same_error(): void
     {
-        $e1 = new Exception("SQLSTATE[HY000]: General error", 500);
-        $e2 = new Exception("SQLSTATE[HY000]: General error", 500);
+        $e1 = $this->createError("SQLSTATE[HY000]: General error");
+        $e2 = $this->createError("SQLSTATE[HY000]: General error");
 
         $hash1 = $this->fingerprinter->generate($e1);
         $hash2 = $this->fingerprinter->generate($e2);
@@ -30,9 +35,8 @@ class ErrorFingerprintTest extends TestCase
 
     public function test_it_normalizes_dynamic_ids_in_message(): void
     {
-        // Two messages with different dynamic user IDs should produce identical fingerprints
-        $e1 = new Exception("User 12345 not found in session", 500);
-        $e2 = new Exception("User 98765 not found in session", 500);
+        $e1 = $this->createError("User 12345 not found in session");
+        $e2 = $this->createError("User 98765 not found in session");
 
         $hash1 = $this->fingerprinter->generate($e1);
         $hash2 = $this->fingerprinter->generate($e2);
