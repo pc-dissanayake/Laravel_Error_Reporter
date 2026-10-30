@@ -1,17 +1,17 @@
-# 🚨 SADPCD Laravel Error Alerts
+# 🚨 SADPCD Laravel Error Reporter
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/sadpcd/laravel-error-alerts.svg?style=flat-square)](https://packagist.org/packages/sadpcd/laravel-error-alerts)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/sadpcd/laravel-error-alerts/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/sadpcd/laravel-error-alerts/actions)
-[![Total Downloads](https://img.shields.io/packagist/dt/sadpcd/laravel-error-alerts.svg?style=flat-square)](https://packagist.org/packages/sadpcd/laravel-error-alerts)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/sadpcd/laravel-error-reporter.svg?style=flat-square)](https://packagist.org/packages/sadpcd/laravel-error-reporter)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/pc-dissanayake/Laravel_Error_Reporter/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/pc-dissanayake/Laravel_Error_Reporter/actions)
+[![Total Downloads](https://img.shields.io/packagist/dt/sadpcd/laravel-error-reporter.svg?style=flat-square)](https://packagist.org/packages/sadpcd/laravel-error-reporter)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE.md)
 
-A battle-tested, resilient **500 error alert and monitoring system** for Laravel (supporting Laravel 10, 11, 12, and 13). Built with **bulletproof failover**, **inbox flood protection**, **Vite & Inertia.js awareness**, **Livewire support**, and an optional **Filament Admin UI component**.
+A battle-tested, resilient **500 error reporting and monitoring system** for Laravel (supporting Laravel 10, 11, 12, and 13). Built with **bulletproof failover**, **inbox flood protection**, **Vite & Inertia.js awareness**, **Livewire support**, and an optional **Filament Admin UI component**.
 
 ---
 
 ## 🌟 Key Features
 
-* **🚨 Real-Time 500 Error Alerts:** Instant, beautifully styled email notifications sent directly to `sadpc.web@gmail.com` (or configurable multi-recipient lists) whenever an unhandled 500 error or fatal exception occurs.
+* **🚨 Real-Time 500 Error Alerts:** Instant, beautifully styled email notifications sent directly to your designated email (or configurable multi-recipient lists) whenever an unhandled 500 error or fatal exception occurs.
 * **🛡️ Fail-Safe Architecture (Zero Reliance on Broken Services):** If a 500 error is caused by MySQL or Redis being completely down, the package catches the failure and falls back to a standalone file-based cooldown lock. The alerting system **never** crashes your application or breaks user error responses.
 * **🌊 Smart Flood Protection & Burst Limiter:**
   * **Fingerprint Deduplication:** Hashes `sha256(class + file + line + normalized_message)` to prevent duplicate emails for repeating errors.
@@ -30,7 +30,7 @@ A battle-tested, resilient **500 error alert and monitoring system** for Laravel
 You can install the package via Composer:
 
 ```bash
-composer require sadpcd/laravel-error-alerts
+composer require sadpcd/laravel-error-reporter
 ```
 
 Publish the configuration file:
@@ -54,7 +54,7 @@ Simply add your email to `.env` to enable 500 error alerts:
 
 ```dotenv
 # Your email to receive 500 server error alerts (Required to enable alerts)
-ERROR_ALERT_EMAIL=sadpc.web@gmail.com
+ERROR_ALERT_EMAIL=developer@example.com
 
 # Optional settings:
 ERROR_ALERTS_ENABLED=true
@@ -97,13 +97,13 @@ public function panel(Panel $panel): Panel
 ## 🛠️ Artisan Commands
 
 ### 1. Test Email Delivery
-Trigger a simulated 500 error to verify that emails reach `sadpc.web@gmail.com` properly:
+Trigger a simulated 500 error to verify that emails reach your mailbox properly:
 
 ```bash
 php artisan error-alerts:test
 
 # Or test sending to an explicit email:
-php artisan error-alerts:test --email=myemail@gmail.com
+php artisan error-alerts:test --email=myemail@example.com
 ```
 
 ### 2. Clear Active Cooldowns
@@ -134,7 +134,7 @@ vendor/bin/phpunit
 
 ## 🛡️ Security & Vulnerability Reporting
 
-If you discover any security vulnerabilities, please send an e-mail to **sadpc.web@gmail.com**.
+If you discover any security vulnerabilities, please open an issue or security advisory on GitHub.
 
 ---
 

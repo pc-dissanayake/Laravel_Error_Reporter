@@ -21,6 +21,6 @@
         <env name="CACHE_STORE" value="array"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="ERROR_ALERTS_ENABLED" value="true"/>
-        <env name="ERROR_ALERTS_RECIPIENTS" value="sadpc.web@gmail.com"/>
+        <env name="ERROR_ALERTS_RECIPIENTS" value="dev@example.com"/>
     </php>
 </phpunit>

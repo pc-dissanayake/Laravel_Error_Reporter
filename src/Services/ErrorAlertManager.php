@@ -81,7 +81,7 @@ class ErrorAlertManager
      */
     protected function sendEmail(Throwable $exception, string $fingerprint, int $occurrences, array $context): void
     {
-        $recipients = config('error-alerts.recipients', ['sadpc.web@gmail.com']);
+        $recipients = config('error-alerts.recipients', []);
 
         if (empty($recipients)) {
             return;

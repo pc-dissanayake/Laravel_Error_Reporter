@@ -1,8 +1,9 @@
 {
-    "name": "sadpcd/laravel-error-alerts",
-    "description": "Resilient 500 Error Alerts with Flood Protection, Livewire/Inertia Context, and optional Filament UI for Laravel",
+    "name": "sadpcd/laravel-error-reporter",
+    "description": "Resilient 500 Error Reporter with Flood Protection, Livewire/Inertia Context, and optional Filament UI for Laravel",
     "keywords": [
         "laravel",
+        "error-reporter",
         "error-alerts",
         "500-errors",
         "exception-monitor",
@@ -12,12 +13,11 @@
         "inertia",
         "sadpcd"
     ],
-    "homepage": "https://github.com/sadpcd/laravel-error-alerts",
+    "homepage": "https://github.com/pc-dissanayake/Laravel_Error_Reporter",
     "license": "MIT",
     "authors": [
         {
             "name": "SADPCD",
-            "email": "sadpc.web@gmail.com",
             "role": "Developer"
         }
     ],

@@ -27,7 +27,7 @@ class TestAlertCommand extends Command
 
         if (empty($recipients)) {
             $this->error("❌ No recipients configured! Set ERROR_ALERT_EMAIL in your .env file.");
-            $this->line("Example: ERROR_ALERT_EMAIL=sadpc.web@gmail.com");
+            $this->line("Example: ERROR_ALERT_EMAIL=developer@example.com");
             return self::FAILURE;
         }
 

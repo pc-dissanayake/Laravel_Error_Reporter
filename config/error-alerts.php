@@ -21,7 +21,7 @@ return [
     | Set ERROR_ALERT_EMAIL in your .env file to enable alerts.
     | If not set or empty, no error alerts will be dispatched.
     |
-    | Example: ERROR_ALERT_EMAIL=sadpc.web@gmail.com
+    | Example: ERROR_ALERT_EMAIL=alerts@yourdomain.com
     |
     */
     'recipients' => array_filter(

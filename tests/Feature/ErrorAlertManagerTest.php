@@ -31,7 +31,7 @@ class ErrorAlertManagerTest extends TestCase
         $this->assertTrue($sent);
 
         Mail::assertSent(ErrorAlertMailable::class, function (ErrorAlertMailable $mail) {
-            return $mail->hasTo('sadpc.web@gmail.com')
+            return $mail->hasTo('dev@example.com')
                 && str_contains($mail->errorMessage, 'Critical Database connection down');
         });
     }

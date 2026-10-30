@@ -30,7 +30,7 @@ abstract class TestCase extends BaseTestAdapter
             'cache.default'             => 'array',
             'error-alerts.enabled'      => true,
             'error-alerts.environments' => ['testing'],
-            'error-alerts.recipients'   => ['sadpc.web@gmail.com'],
+            'error-alerts.recipients'   => ['dev@example.com'],
             'error-alerts.throttle.enabled' => true,
             'error-alerts.throttle.minutes' => 15,
         ]);
@@ -44,7 +44,7 @@ abstract class TestCase extends BaseTestAdapter
         $app['config']->set('cache.default', 'array');
         $app['config']->set('error-alerts.enabled', true);
         $app['config']->set('error-alerts.environments', ['testing']);
-        $app['config']->set('error-alerts.recipients', ['sadpc.web@gmail.com']);
+        $app['config']->set('error-alerts.recipients', ['dev@example.com']);
         $app['config']->set('error-alerts.throttle.enabled', true);
         $app['config']->set('error-alerts.throttle.minutes', 15);
     }

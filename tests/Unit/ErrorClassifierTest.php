@@ -62,7 +62,7 @@ class ErrorClassifierTest extends TestCase
 
     public function test_it_reports_when_email_is_configured(): void
     {
-        config(['error-alerts.recipients' => ['sadpc.web@gmail.com']]);
+        config(['error-alerts.recipients' => ['dev@example.com']]);
         $exception = new Exception("Server crash", 500);
 
         $this->assertTrue($this->classifier->shouldReport($exception));
