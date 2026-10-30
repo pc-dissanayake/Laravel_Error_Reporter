@@ -1,0 +1,68 @@
+{
+    "name": "sadpcd/laravel-error-alerts",
+    "description": "Resilient 500 Error Alerts with Flood Protection, Livewire/Inertia Context, and optional Filament UI for Laravel",
+    "keywords": [
+        "laravel",
+        "error-alerts",
+        "500-errors",
+        "exception-monitor",
+        "flood-protection",
+        "filament",
+        "livewire",
+        "inertia",
+        "sadpcd"
+    ],
+    "homepage": "https://github.com/sadpcd/laravel-error-alerts",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "SADPCD",
+            "email": "sadpc.web@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2|^8.3|^8.4",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/mail": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/database": "^10.0|^11.0|^12.0|^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.0|^11.0"
+    },
+    "suggest": {
+        "filament/filament": "Enables the Filament admin dashboard widget and error log resource (^3.0|^4.0)",
+        "livewire/livewire": "Enables deep Livewire component error context capture (^3.0)"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sadpcd\\ErrorAlerts\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sadpcd\\ErrorAlerts\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sadpcd\\ErrorAlerts\\ErrorAlertServiceProvider"
+            ],
+            "aliases": {
+                "ErrorAlert": "Sadpcd\\ErrorAlerts\\Facades\\ErrorAlert"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {}
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

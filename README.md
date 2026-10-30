@@ -1,0 +1,158 @@
+# 🚨 SADPCD Laravel Error Alerts
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/sadpcd/laravel-error-alerts.svg?style=flat-square)](https://packagist.org/packages/sadpcd/laravel-error-alerts)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/sadpcd/laravel-error-alerts/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/sadpcd/laravel-error-alerts/actions)
+[![Total Downloads](https://img.shields.io/packagist/dt/sadpcd/laravel-error-alerts.svg?style=flat-square)](https://packagist.org/packages/sadpcd/laravel-error-alerts)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE.md)
+
+A battle-tested, resilient **500 error alert and monitoring system** for Laravel (supporting Laravel 10, 11, 12, and 13). Built with **bulletproof failover**, **inbox flood protection**, **Vite & Inertia.js awareness**, **Livewire support**, and an optional **Filament Admin UI component**.
+
+---
+
+## 🌟 Key Features
+
+* **🚨 Real-Time 500 Error Alerts:** Instant, beautifully styled email notifications sent directly to `sadpc.web@gmail.com` (or configurable multi-recipient lists) whenever an unhandled 500 error or fatal exception occurs.
+* **🛡️ Fail-Safe Architecture (Zero Reliance on Broken Services):** If a 500 error is caused by MySQL or Redis being completely down, the package catches the failure and falls back to a standalone file-based cooldown lock. The alerting system **never** crashes your application or breaks user error responses.
+* **🌊 Smart Flood Protection & Burst Limiter:**
+  * **Fingerprint Deduplication:** Hashes `sha256(class + file + line + normalized_message)` to prevent duplicate emails for repeating errors.
+  * **Configurable Cooldown:** Suppresses duplicate alerts for 30 minutes (configurable), while tracking recurrence counts (*"Occurred 42 times during cooldown"*).
+  * **Circuit Breaker:** Automatically throttles if total system errors spike over a global threshold (e.g., max 15 emails/hour) to protect your inbox and SMTP quota during server meltdowns.
+* **🔒 Automatic Sensitive Data Scrubbing:** Automatically scrubs passwords, authorization bearer tokens, API secrets, credit cards, and session cookies from request headers and payloads.
+* **⚡ 100% Vite & Inertia.js Compatible:** Email templates use self-contained, inlined CSS—completely independent of Vite compilation, Tailwind builds, or local dev servers. Automatically captures Inertia component names and SPA AJAX payloads.
+* **🎛️ Laravel Livewire & Queue Support:** Detects Livewire component actions, method parameters, and failed queued background jobs.
+* **🖥️ Optional Filament Admin UI Plugin:** Ready-to-use Filament v3/v4 dashboard widget and error management resource with full stack trace viewer and "Mark as Resolved" actions.
+* **🛠️ Artisan CLI Tools:** Includes `php artisan error-alerts:test`, `php artisan error-alerts:clear`, and `php artisan error-alerts:prune`.
+
+---
+
+## 📦 Installation
+
+You can install the package via Composer:
+
+```bash
+composer require sadpcd/laravel-error-alerts
+```
+
+Publish the configuration file:
+
+```bash
+php artisan vendor:publish --tag="error-alerts-config"
+```
+
+*(Optional)* If you want to use the database error log and Filament UI:
+
+```bash
+php artisan vendor:publish --tag="error-alerts-migrations"
+php artisan migrate
+```
+
+---
+
+## ⚙️ Configuration (`.env`)
+
+Add the following environment variables to your `.env` file to customize behavior:
+
+```dotenv
+# Enable or disable alerts
+ERROR_ALERTS_ENABLED=true
+
+# Recipients (single or comma-separated list)
+ERROR_ALERTS_RECIPIENTS=sadpc.web@gmail.com,alerts@sadpcd.com
+
+# Optional CC and BCC
+ERROR_ALERTS_CC=
+ERROR_ALERTS_BCC=
+
+# Dedicated mailer (null uses default config('mail.default'))
+ERROR_ALERTS_MAILER=smtp
+
+# Active environments (prevent local test spam)
+ERROR_ALERTS_ENVIRONMENTS=production,staging
+
+# Cooldown duration in minutes for duplicate errors
+ERROR_ALERTS_THROTTLE_MINUTES=30
+
+# Max alert emails per hour across all different errors (Circuit Breaker)
+ERROR_ALERTS_BURST_MAX=15
+
+# Send synchronously (recommended for resilience) or queue
+ERROR_ALERTS_QUEUE=false
+```
+
+---
+
+## 🖥️ Filament Admin Panel Integration
+
+If your application uses [Filament](https://filamentphp.com), you can register the **Error Alerts Plugin** in your Panel Provider (e.g. `app/Providers/Filament/AdminPanelProvider.php`):
+
+```php
+use Sadpcd\ErrorAlerts\Filament\ErrorAlertsPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        // ...
+        ->plugins([
+            ErrorAlertsPlugin::make()
+                ->navigationGroup('Monitoring')
+                ->enableWidget(true),
+        ]);
+}
+```
+
+### What You Get in Filament:
+1. **500 Error Alerts Resource:** Searchable list of all captured errors, occurrence counts, status badges (*Unresolved / Resolved / Ignored*), and full stack trace inspector.
+2. **Dashboard Overview Widget:** Real-time stats card displaying 24h error frequency and top failing exception.
+3. **Quick Actions:** "Send Test Alert" and "Clear Cooldowns" directly from the admin panel.
+
+---
+
+## 🛠️ Artisan Commands
+
+### 1. Test Email Delivery
+Trigger a simulated 500 error to verify that emails reach `sadpc.web@gmail.com` properly:
+
+```bash
+php artisan error-alerts:test
+
+# Or test sending to an explicit email:
+php artisan error-alerts:test --email=myemail@gmail.com
+```
+
+### 2. Clear Active Cooldowns
+Reset rate-limiting locks and burst counters:
+
+```bash
+php artisan error-alerts:clear
+```
+
+### 3. Prune Old Database Errors
+Clean up historical error logs older than 30 days:
+
+```bash
+php artisan error-alerts:prune --days=30
+```
+
+---
+
+## 🧪 Running Tests
+
+```bash
+composer test
+# or
+vendor/bin/phpunit
+```
+
+---
+
+## 🛡️ Security & Vulnerability Reporting
+
+If you discover any security vulnerabilities, please send an e-mail to **sadpc.web@gmail.com**.
+
+---
+
+## 📄 License
+
+The MIT License (MIT). Please see [LICENSE.md](LICENSE.md) for more information.
+
+Copyright © 2026 **SADPCD**.
